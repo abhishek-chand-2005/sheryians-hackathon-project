@@ -5,15 +5,18 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
 import { PropertyProvider } from './context/PropertyContext';
+import { UserProvider } from './context/UserContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-      <BrowserRouter>
-        <ThemeProvider>
-          <PropertyProvider>
+    <BrowserRouter>
+      <ThemeProvider>
+        <PropertyProvider>
+          <UserProvider>
             <App />
-          </PropertyProvider>
-        </ThemeProvider>
-      </BrowserRouter>
+          </UserProvider>
+        </PropertyProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   </StrictMode>
 );

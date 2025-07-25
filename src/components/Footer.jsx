@@ -1,8 +1,17 @@
 import { useState } from 'react';
-import { Mail, Phone, Instagram, Youtube, Heart, ArrowUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Mail,
+  Phone,
+  Instagram,
+  Youtube,
+  Heart,
+  ArrowUp,
+} from 'lucide-react';
 
 export function Footer() {
   const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
 
   const handleLike = () => {
     setLiked(!liked);
@@ -12,13 +21,6 @@ export function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <footer className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white py-16">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
@@ -26,14 +28,14 @@ export function Footer() {
           {/* Left - Contact */}
           <div className="space-y-4 text-center md:text-left">
             <h3 className="text-xl font-bold mb-4">Get In Touch</h3>
-            <a 
+            <a
               href="mailto:info@househack.com"
               className="flex items-center justify-center md:justify-start space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors group"
             >
               <Mail className="h-5 w-5 group-hover:scale-110 transition-transform" />
               <span>info@househack.com</span>
             </a>
-            <a 
+            <a
               href="tel:+1234567890"
               className="flex items-center justify-center md:justify-start space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors group"
             >
@@ -46,29 +48,35 @@ export function Footer() {
           <div className="text-center">
             <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <nav className="space-y-3">
-              <button 
+              <button
                 onClick={scrollToTop}
                 className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors"
               >
                 Home
               </button>
-              <button 
-                onClick={() => scrollToSection('about')}
+              <button
+                onClick={() => navigate('/about')}
                 className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors"
               >
                 About
               </button>
-              <button 
-                onClick={() => scrollToSection('properties')}
+              <button
+                onClick={() => scrollToTop()} // Assuming Properties are on home page
                 className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors"
               >
                 Properties
               </button>
-              <button 
-                onClick={() => scrollToSection('contact')}
+              <button
+                onClick={() => navigate('/contact')}
                 className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors"
               >
                 Contact
+              </button>
+              <button
+                onClick={() => navigate('/faq')}
+                className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors"
+              >
+                FAQ
               </button>
             </nav>
           </div>
@@ -77,17 +85,17 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-end">
             <h3 className="text-xl font-bold mb-4">Follow Us</h3>
             <div className="flex justify-center md:justify-end space-x-4 mb-6">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
+              <a
+                href="https://instagram.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors group"
               >
                 <Instagram className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </a>
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
+              <a
+                href="https://youtube.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors group"
               >
@@ -95,17 +103,19 @@ export function Footer() {
               </a>
             </div>
 
-            <button 
+            <button
               onClick={handleLike}
               className={`flex items-center space-x-2 transition-all duration-300 ${
-                liked 
-                  ? 'text-red-500 scale-110' 
+                liked
+                  ? 'text-red-500 scale-110'
                   : 'text-gray-500 dark:text-gray-300 hover:text-red-400'
               }`}
             >
-              <Heart className={`h-5 w-5 transition-all duration-300 ${
-                liked ? 'fill-current animate-pulse' : ''
-              }`} />
+              <Heart
+                className={`h-5 w-5 transition-all duration-300 ${
+                  liked ? 'fill-current animate-pulse' : ''
+                }`}
+              />
               <span className="text-sm">
                 {liked ? 'Thanks!' : 'Like our work?'}
               </span>
@@ -122,7 +132,7 @@ export function Footer() {
             </p>
           </div>
 
-          <button 
+          <button
             onClick={scrollToTop}
             className="bg-blue-600 hover:bg-blue-700 p-3 rounded-full transition-colors group"
           >

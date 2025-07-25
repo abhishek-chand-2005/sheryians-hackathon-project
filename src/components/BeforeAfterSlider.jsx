@@ -1,7 +1,40 @@
+// src/components/BeforeAfterSlider.jsx
 import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useProperty } from '../context/PropertyContext';
-import { useTheme } from '../context/ThemeContext'; // import theme
+import { useTheme } from '../context/ThemeContext';
+
+const beforeAfterData = [
+  {
+    id: 1,
+    title: "Acquisition 1: Single Family Home",
+    afterImage: "https://framerusercontent.com/images/fG8N9bKFJJniPY5LgVUPVQaDI6I.png?scale-down-to=1024",
+    beforeImage: "https://framerusercontent.com/images/2c2YSTgZHquoTuejVrk9BDgC1w.jpg?scale-down-to=1024",
+    purchasePrice: "$150,000",
+    renovation: "$45,000",
+    marketValue: "$260,000",
+    wedge: "$65,000"
+  },
+  {
+    id: 2,
+    title: "Acquisition 2: Duplex Upgrade",
+    afterImage: "https://framerusercontent.com/images/zE1xUnezoBdywMS6lBajr6EbPN8.png?scale-down-to=2048",
+    beforeImage: "https://framerusercontent.com/images/g33vnDHmYUCXEU29Q9yiXhzSBQ.jpg?scale-down-to=2048",
+    purchasePrice: "$475,000",
+    renovation: "$66,709",
+    marketValue: "$625,000",
+    wedge: "$83,291"
+  },
+  {
+    id: 3,
+    title: "Acquisition 3: Townhouse Flip",
+    afterImage: "https://framerusercontent.com/images/Vs9qkdK1udDMQhIAi0fKmgUP0.png?scale-down-to=2048",
+    beforeImage: "https://framerusercontent.com/images/ROE9YfR5OaUs8VxXvT8k8p5MIaU.jpg?scale-down-to=2048",
+    purchasePrice: "$515,000",
+    renovation: "$80,309",
+    marketValue: "$686,000",
+    wedge: "$90,691"
+  }
+];
 
 function ComparisonSlider({ beforeImage, afterImage }) {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -45,34 +78,34 @@ function ComparisonSlider({ beforeImage, afterImage }) {
   }, [isDragging]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="relative w-full h-80 overflow-hidden rounded-2xl cursor-col-resize select-none"
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
     >
-      <img 
-        src={beforeImage} 
+      <img
+        src={beforeImage}
         alt="Before renovation"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      
-      <div 
+
+      <div
         className="absolute inset-0 overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
-        <img 
-          src={afterImage} 
+        <img
+          src={afterImage}
           alt="After renovation"
           className="w-full h-full object-cover"
         />
       </div>
-      
-      <div 
+
+      <div
         className="absolute top-0 bottom-0 w-1 bg-white dark:bg-purple-400 shadow-lg z-10"
         style={{ left: `${sliderPosition}%` }}
       >
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-purple-200 rounded-full shadow-lg flex items-center justify-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-purple-200 rounded-full shadow-lg flex items-center justify-center">
           <div className="w-4 h-4 bg-blue-600 dark:bg-purple-600 rounded-full"></div>
         </div>
       </div>
@@ -88,7 +121,6 @@ function ComparisonSlider({ beforeImage, afterImage }) {
 }
 
 export function BeforeAfterSlider() {
-  const { beforeAfterData } = useProperty();
   const { theme } = useTheme();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
@@ -96,8 +128,10 @@ export function BeforeAfterSlider() {
 
   const minSwipeDistance = 50;
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % beforeAfterData.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + beforeAfterData.length) % beforeAfterData.length);
+  const nextSlide = () =>
+    setCurrentSlide((prev) => (prev + 1) % beforeAfterData.length);
+  const prevSlide = () =>
+    setCurrentSlide((prev) => (prev - 1 + beforeAfterData.length) % beforeAfterData.length);
 
   const onTouchStart = (e) => {
     setTouchEnd(null);
@@ -114,7 +148,7 @@ export function BeforeAfterSlider() {
   const currentData = beforeAfterData[currentSlide];
 
   return (
-    <section className="py-20 bg-white dark:bg-[#0f0f1a] transition-colors duration-300">
+    <section id="before-after" className="py-20 bg-white dark:bg-[#0f0f1a] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
@@ -126,20 +160,20 @@ export function BeforeAfterSlider() {
         </div>
 
         <div className="relative">
-          <div 
+          <div
             className="overflow-hidden"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
           >
-            <div 
+            <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {beforeAfterData.map((item) => (
                 <div key={item.id} className="w-full flex-shrink-0">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <ComparisonSlider 
+                    <ComparisonSlider
                       beforeImage={item.beforeImage}
                       afterImage={item.afterImage}
                     />
@@ -150,21 +184,21 @@ export function BeforeAfterSlider() {
                       </h3>
 
                       <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 space-y-4 shadow-inner">
-                        <div className="flex justify-between items-center text-gray-600 dark:text-gray-300">
-                          <span className="font-medium">Purchase Price:</span>
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-600 dark:text-gray-300">Purchase Price:</span>
                           <span className="text-xl font-bold text-gray-800 dark:text-white">{item.purchasePrice}</span>
                         </div>
-                        <div className="flex justify-between items-center text-gray-600 dark:text-gray-300">
-                          <span className="font-medium">Renovation:</span>
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-600 dark:text-gray-300">Renovation:</span>
                           <span className="text-xl font-bold text-gray-800 dark:text-white">{item.renovation}</span>
                         </div>
-                        <div className="flex justify-between items-center text-gray-600 dark:text-gray-300">
-                          <span className="font-medium">Estimated Market Value:</span>
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-600 dark:text-gray-300">Estimated Market Value:</span>
                           <span className="text-xl font-bold text-gray-800 dark:text-white">{item.marketValue}</span>
                         </div>
                         <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-800 dark:text-white font-bold text-lg">Wedge:</span>
+                          <div className="flex justify-between">
+                            <span className="font-bold text-lg text-gray-800 dark:text-white">Wedge:</span>
                             <span className="text-2xl font-bold text-green-600">{item.wedge}</span>
                           </div>
                         </div>
@@ -176,19 +210,19 @@ export function BeforeAfterSlider() {
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-700/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:shadow-xl transition-all group"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-700/80 backdrop-blur-md p-3 rounded-full shadow-lg group"
           >
-            <ChevronLeft className="h-6 w-6 text-gray-600 dark:text-white group-hover:text-blue-600 transition-colors" />
+            <ChevronLeft className="h-6 w-6 text-gray-600 dark:text-white group-hover:text-blue-600" />
           </button>
-          
+
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-700/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:shadow-xl transition-all group"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-700/80 backdrop-blur-md p-3 rounded-full shadow-lg group"
           >
-            <ChevronRight className="h-6 w-6 text-gray-600 dark:text-white group-hover:text-blue-600 transition-colors" />
+            <ChevronRight className="h-6 w-6 text-gray-600 dark:text-white group-hover:text-blue-600" />
           </button>
 
           {/* Dots */}
